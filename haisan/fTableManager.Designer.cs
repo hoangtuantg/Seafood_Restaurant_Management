@@ -46,6 +46,7 @@
             this.flpBanan = new System.Windows.Forms.FlowLayoutPanel();
             this.bindingSource1 = new System.Windows.Forms.BindingSource(this.components);
             this.btnDangxuat = new System.Windows.Forms.Button();
+            this.lblXinChao = new System.Windows.Forms.Label();
             this.panel2.SuspendLayout();
             this.panel3.SuspendLayout();
             this.menuStrip1.SuspendLayout();
@@ -211,12 +212,24 @@
             this.btnDangxuat.UseVisualStyleBackColor = true;
             this.btnDangxuat.Click += new System.EventHandler(this.btnDangxuat_Click);
             // 
+            // lblXinChao
+            // 
+            this.lblXinChao.AutoSize = true;
+            this.lblXinChao.BackColor = System.Drawing.SystemColors.Control;
+            this.lblXinChao.ForeColor = System.Drawing.Color.Red;
+            this.lblXinChao.Location = new System.Drawing.Point(551, 9);
+            this.lblXinChao.Name = "lblXinChao";
+            this.lblXinChao.Size = new System.Drawing.Size(35, 13);
+            this.lblXinChao.TabIndex = 7;
+            this.lblXinChao.Text = "label1";
+            // 
             // fTableManager
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("$this.BackgroundImage")));
             this.ClientSize = new System.Drawing.Size(865, 584);
+            this.Controls.Add(this.lblXinChao);
             this.Controls.Add(this.btnDangxuat);
             this.Controls.Add(this.flpBanan);
             this.Controls.Add(this.panel4);
@@ -258,5 +271,6 @@
         private System.Windows.Forms.Button btnThanhtoan;
         private System.Windows.Forms.BindingSource bindingSource1;
         private System.Windows.Forms.Button btnDangxuat;
+        private System.Windows.Forms.Label lblXinChao;
     }
 }

@@ -17,6 +17,21 @@ namespace haisan
             InitializeComponent();
 
             LoadTable();
+
+            HienThiXinChao();
+        }
+
+        private string username;
+        public fTableManager(string username)
+        {
+            InitializeComponent();
+            this.username = username;
+            HienThiXinChao();
+        }
+
+        private void HienThiXinChao()
+        {
+            lblXinChao.Text = $"Xin chào, {username}!";
         }
 
         private void fTableManager_Load(object sender, EventArgs e)
@@ -76,9 +91,12 @@ namespace haisan
 
         private void btnDangxuat_Click(object sender, EventArgs e)
         {
-            this.Close();
+            DialogResult result = MessageBox.Show("Bạn có thực sự muốn thoát không???", "Hộp thoại", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
+            if (result == DialogResult.Yes)
+            {
+                this.Close();
+            }
 
-            
         }
 
         private void btnThemmon_Click(object sender, EventArgs e)

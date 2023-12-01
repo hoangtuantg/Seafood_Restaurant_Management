@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
 using System.Data.SqlClient;
+using System.Diagnostics;
 using System.Drawing;
 using System.Linq;
 using System.Text;
@@ -22,6 +23,19 @@ namespace haisan
         string ConnStr = "Data Source=HUNG123;Initial Catalog=QuanLyQuanHaiSan;Integrated Security=True";
         SqlConnection Conn = new SqlConnection("Data Source=HUNG123;Initial Catalog=QuanLyQuanHaiSan;Integrated Security=True");
         SqlCommand cmd = new SqlCommand();
+
+        private string username;
+        public fQuanlithongtin(string username)
+        {
+            InitializeComponent();
+            this.username = username;
+            HienThiXinChao();
+        }
+
+        private void HienThiXinChao()
+        {
+            lblXinChao.Text = $"Xin chào, {username}!";
+        }
         private void mnQuanlibanan_Click(object sender, EventArgs e)
         {
             fTableManager f = new fTableManager();
@@ -89,6 +103,7 @@ namespace haisan
                         item.SubItems.Add(reader["Gender"].ToString());
                         item.SubItems.Add(reader["Dob"].ToString());
                         item.SubItems.Add(reader["Phone"].ToString());
+                        item.SubItems.Add(reader["Role"].ToString());
 
                         lsvDanhSachNhanVien.Items.Add(item);
                     }
@@ -125,7 +140,7 @@ namespace haisan
 
         private void btnThemNV_Click(object sender, EventArgs e)
         {
-       
+            
         }
 
         private void btnSuaNV_Click(object sender, EventArgs e)
@@ -142,15 +157,16 @@ namespace haisan
 
         private void btnTimkiemMonAn_Click(object sender, EventArgs e)
         {
-
-            // Chuỗi truy vấn SQL SELECT với điều kiện WHERE
-            string query = "SELECT * FROM Food WHERE name LIKE @timMon";
-                Conn.Open();
+            try
+            {
+                // Chuỗi truy vấn SQL SELECT với điều kiện WHERE
+                string query = "SELECT * FROM Food WHERE name LIKE @timMon";
+                MoKetNoi();
 
                 // Tạo đối tượng SqlCommand
                 using (SqlCommand cmd = new SqlCommand(query, Conn))
                 {
-                    
+
                     // Thêm tham số cho truy vấn SQL để tránh SQL Injection
                     cmd.Parameters.AddWithValue("@timMon", "%" + txtTimKiemMonAn.Text + "%");
 
@@ -173,6 +189,16 @@ namespace haisan
                         }
                     }
                 }
+            }
+            catch 
+            {
+                if(txtTimKiemMonAn.Text == "")
+                {
+                    MessageBox.Show("Trường nhập thông tin tìm kiếm bị trống!!!");
+                }
+            }
+
+ 
         }
 
         private void label1_Click(object sender, EventArgs e)
@@ -234,7 +260,5 @@ namespace haisan
         {
 
         }
-
-
     }
 }

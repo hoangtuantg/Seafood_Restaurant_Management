@@ -37,7 +37,7 @@ namespace haisan
 
             try
             {
-                string query = "SELECT * FROM Account where UserName = '"+ txtTK.Text + "' and PassWord = '"+ txtMK.Text + "'";
+                string query = "SELECT * FROM Staff where UserName = '"+ txtTK.Text + "' and PassWord = '"+ txtMK.Text + "'";
                 Conn.Open();
                 SqlDataAdapter sda = new SqlDataAdapter(query, Conn);
                 DataTable dt = new DataTable();
@@ -48,26 +48,22 @@ namespace haisan
                     username = txtTK.Text.Trim();
                     password = txtMK.Text.Trim();
 
-                    //fTableManager f = new fTableManager();
-                    //f.Show();
-                    //this.Hide();
-
                     SqlCommand cmd = new SqlCommand(query, Conn);
                     SqlDataReader reader = cmd.ExecuteReader();
 
                     if (reader.Read())
                     {
-                        int Type = Convert.ToInt32(reader["Type"]);
+                        string Role = reader["Role"].ToString();
 
-                        if (Type == 1)
+                        if (Role == "User")
                         {
-                            fTableManager f = new fTableManager();
+                            fTableManager f = new fTableManager(username);
                             f.Show();
                             this.Hide();
                         }
-                        else if (Type == 2)
+                        else if (Role == "Admin")
                         {
-                            fQuanlithongtin f = new fQuanlithongtin();
+                            fQuanlithongtin f = new fQuanlithongtin(username);
                             f.Show();
                             this.Hide();
                         }
