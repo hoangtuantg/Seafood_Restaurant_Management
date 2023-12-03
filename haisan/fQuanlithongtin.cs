@@ -159,43 +159,52 @@ namespace haisan
         {
             try
             {
-                // Chuỗi truy vấn SQL SELECT với điều kiện WHERE
-                string query = "SELECT * FROM Food WHERE name LIKE @timMon";
-                MoKetNoi();
-
-                // Tạo đối tượng SqlCommand
-                using (SqlCommand cmd = new SqlCommand(query, Conn))
+                if (!string.IsNullOrWhiteSpace(txtTimKiemMonAn.Text))
                 {
+                    // Chuỗi truy vấn SQL SELECT với điều kiện WHERE
+                    string query = "SELECT * FROM Food WHERE name LIKE @timMon";
+                    MoKetNoi();
 
-                    // Thêm tham số cho truy vấn SQL để tránh SQL Injection
-                    cmd.Parameters.AddWithValue("@timMon", "%" + txtTimKiemMonAn.Text + "%");
-
-                    // Sử dụng SqlDataReader để đọc dữ liệu từ cơ sở dữ liệu
-                    using (SqlDataReader reader = cmd.ExecuteReader())
+                    // Tạo đối tượng SqlCommand
+                    using (SqlCommand cmd = new SqlCommand(query, Conn))
                     {
-                        // Xóa dữ liệu cũ trong ListView
-                        lsvDanhSachMonAn.Items.Clear();
 
-                        // Duyệt qua dữ liệu và thêm vào ListView
-                        while (reader.Read())
+                        // Thêm tham số cho truy vấn SQL để tránh SQL Injection
+                        cmd.Parameters.AddWithValue("@timMon", "%" + txtTimKiemMonAn.Text + "%");
+
+                        // Sử dụng SqlDataReader để đọc dữ liệu từ cơ sở dữ liệu
+                        using (SqlDataReader reader = cmd.ExecuteReader())
                         {
-                            ListViewItem item = new ListViewItem(reader["id"].ToString());
-                            item.SubItems.Add(reader["name"].ToString());
-                            item.SubItems.Add(reader["idCategory"].ToString());
-                            item.SubItems.Add(reader["price"].ToString());
+                            // Xóa dữ liệu cũ trong ListView
+                            lsvDanhSachMonAn.Items.Clear();
 
-                            lsvDanhSachMonAn.Items.Add(item);
+                            // Duyệt qua dữ liệu và thêm vào ListView
+                            while (reader.Read())
+                            {
+                                ListViewItem item = new ListViewItem(reader["id"].ToString());
+                                item.SubItems.Add(reader["name"].ToString());
+                                item.SubItems.Add(reader["idCategory"].ToString());
+                                item.SubItems.Add(reader["price"].ToString());
 
+                                lsvDanhSachMonAn.Items.Add(item);
+
+                            }
+                            if (lsvDanhSachMonAn.Items.Count == 0)
+                            {
+                                MessageBox.Show("Thông tin bạn đang tìm kiếm không tồn tại!!!", "Hộp thoại", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                            }
                         }
                     }
                 }
-            }
-            catch 
-            {
-                if(txtTimKiemMonAn.Text == "")
+                else
                 {
-                    MessageBox.Show("Trường nhập thông tin tìm kiếm bị trống!!!");
+                    HienThiDanhSachMonAn();
                 }
+   
+            }
+            catch(Exception ex)
+            {
+                MessageBox.Show(ex.Message);
             }
 
  
@@ -259,6 +268,64 @@ namespace haisan
         private void lsvDanhSachMonAn_SelectedIndexChanged(object sender, EventArgs e)
         {
 
+        }
+
+        private void btnTimNV_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                if(!string.IsNullOrWhiteSpace(txtTimKiemNhanVien.Text))
+                {
+                    // Chuỗi truy vấn SQL SELECT với điều kiện WHERE
+                    string query = "SELECT * FROM Staff WHERE name LIKE @timNV";
+                    MoKetNoi();
+
+                    // Tạo đối tượng SqlCommand
+                    using (SqlCommand cmd = new SqlCommand(query, Conn))
+                    {
+
+                        // Thêm tham số cho truy vấn SQL để tránh SQL Injection
+                        cmd.Parameters.AddWithValue("@timNV", "%" + txtTimKiemNhanVien.Text + "%");
+
+                        // Sử dụng SqlDataReader để đọc dữ liệu từ cơ sở dữ liệu
+                        using (SqlDataReader reader = cmd.ExecuteReader())
+                        {
+                            // Xóa dữ liệu cũ trong ListView
+                            lsvDanhSachNhanVien.Items.Clear();
+
+                            // Duyệt qua dữ liệu và thêm vào ListView
+                            while (reader.Read())
+                            {
+                                ListViewItem item = new ListViewItem(reader["id"].ToString());
+                                item.SubItems.Add(reader["name"].ToString());
+                                item.SubItems.Add(reader["UserName"].ToString());
+                                item.SubItems.Add(reader["PassWord"].ToString());
+                                item.SubItems.Add(reader["Gender"].ToString());
+                                item.SubItems.Add(reader["Dob"].ToString());
+                                item.SubItems.Add(reader["Phone"].ToString());
+                                item.SubItems.Add(reader["Role"].ToString());
+
+                                lsvDanhSachNhanVien.Items.Add(item);
+
+                            }
+
+                            if (lsvDanhSachNhanVien.Items.Count == 0)
+                            {
+                                MessageBox.Show("Thông tin bạn đang tìm kiếm không tồn tại!!!", "Hộp thoại", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                            }
+                        }
+                    }
+                }
+                else
+                {
+                    HienThiDanhSachNhanVien();
+                }
+
+            }
+            catch(Exception ex)
+            {
+                MessageBox.Show(ex.Message);
+            }
         }
     }
 }

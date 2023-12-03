@@ -60,8 +60,13 @@
             this.columnHeader9 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.columnHeader10 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.columnHeader11 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+            this.columnHeader12 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.dataGridView2 = new System.Windows.Forms.DataGridView();
             this.panel3 = new System.Windows.Forms.Panel();
+            this.btnTimNV = new System.Windows.Forms.Button();
+            this.txtTimKiemNhanVien = new System.Windows.Forms.TextBox();
+            this.comboBox1 = new System.Windows.Forms.ComboBox();
+            this.label1 = new System.Windows.Forms.Label();
             this.btnThemNV = new System.Windows.Forms.Button();
             this.btnXoaNV = new System.Windows.Forms.Button();
             this.btnSuaNV = new System.Windows.Forms.Button();
@@ -83,11 +88,6 @@
             this.quảnLíThôngTinToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.btnDangxuat = new System.Windows.Forms.Button();
             this.lblXinChao = new System.Windows.Forms.Label();
-            this.label1 = new System.Windows.Forms.Label();
-            this.comboBox1 = new System.Windows.Forms.ComboBox();
-            this.txtTimKiemNhanVien = new System.Windows.Forms.TextBox();
-            this.btnTimNV = new System.Windows.Forms.Button();
-            this.columnHeader12 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.tabControl1.SuspendLayout();
             this.tpMonan.SuspendLayout();
             this.panel2.SuspendLayout();
@@ -403,6 +403,11 @@
             this.columnHeader11.Text = "Số điện thoại";
             this.columnHeader11.Width = 160;
             // 
+            // columnHeader12
+            // 
+            this.columnHeader12.Text = "Quyền";
+            this.columnHeader12.Width = 82;
+            // 
             // dataGridView2
             // 
             this.dataGridView2.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
@@ -442,6 +447,44 @@
             this.panel3.Size = new System.Drawing.Size(793, 200);
             this.panel3.TabIndex = 2;
             this.panel3.Paint += new System.Windows.Forms.PaintEventHandler(this.panel3_Paint);
+            // 
+            // btnTimNV
+            // 
+            this.btnTimNV.Location = new System.Drawing.Point(385, 160);
+            this.btnTimNV.Name = "btnTimNV";
+            this.btnTimNV.Size = new System.Drawing.Size(101, 23);
+            this.btnTimNV.TabIndex = 26;
+            this.btnTimNV.Text = "Tìm kiếm tên NV";
+            this.btnTimNV.UseVisualStyleBackColor = true;
+            this.btnTimNV.Click += new System.EventHandler(this.btnTimNV_Click);
+            // 
+            // txtTimKiemNhanVien
+            // 
+            this.txtTimKiemNhanVien.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(163)));
+            this.txtTimKiemNhanVien.Location = new System.Drawing.Point(487, 160);
+            this.txtTimKiemNhanVien.Margin = new System.Windows.Forms.Padding(2);
+            this.txtTimKiemNhanVien.Name = "txtTimKiemNhanVien";
+            this.txtTimKiemNhanVien.Size = new System.Drawing.Size(175, 23);
+            this.txtTimKiemNhanVien.TabIndex = 25;
+            // 
+            // comboBox1
+            // 
+            this.comboBox1.FormattingEnabled = true;
+            this.comboBox1.Location = new System.Drawing.Point(120, 163);
+            this.comboBox1.Name = "comboBox1";
+            this.comboBox1.Size = new System.Drawing.Size(189, 21);
+            this.comboBox1.TabIndex = 23;
+            // 
+            // label1
+            // 
+            this.label1.AutoSize = true;
+            this.label1.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(163)));
+            this.label1.Location = new System.Drawing.Point(42, 163);
+            this.label1.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
+            this.label1.Name = "label1";
+            this.label1.Size = new System.Drawing.Size(54, 17);
+            this.label1.TabIndex = 22;
+            this.label1.Text = "Quyền:";
             // 
             // btnThemNV
             // 
@@ -670,48 +713,6 @@
             this.lblXinChao.Size = new System.Drawing.Size(46, 17);
             this.lblXinChao.TabIndex = 3;
             this.lblXinChao.Text = "label1";
-            // 
-            // label1
-            // 
-            this.label1.AutoSize = true;
-            this.label1.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(163)));
-            this.label1.Location = new System.Drawing.Point(42, 163);
-            this.label1.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
-            this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(54, 17);
-            this.label1.TabIndex = 22;
-            this.label1.Text = "Quyền:";
-            // 
-            // comboBox1
-            // 
-            this.comboBox1.FormattingEnabled = true;
-            this.comboBox1.Location = new System.Drawing.Point(120, 163);
-            this.comboBox1.Name = "comboBox1";
-            this.comboBox1.Size = new System.Drawing.Size(189, 21);
-            this.comboBox1.TabIndex = 23;
-            // 
-            // txtTimKiemNhanVien
-            // 
-            this.txtTimKiemNhanVien.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(163)));
-            this.txtTimKiemNhanVien.Location = new System.Drawing.Point(487, 160);
-            this.txtTimKiemNhanVien.Margin = new System.Windows.Forms.Padding(2);
-            this.txtTimKiemNhanVien.Name = "txtTimKiemNhanVien";
-            this.txtTimKiemNhanVien.Size = new System.Drawing.Size(175, 23);
-            this.txtTimKiemNhanVien.TabIndex = 25;
-            // 
-            // btnTimNV
-            // 
-            this.btnTimNV.Location = new System.Drawing.Point(385, 160);
-            this.btnTimNV.Name = "btnTimNV";
-            this.btnTimNV.Size = new System.Drawing.Size(101, 23);
-            this.btnTimNV.TabIndex = 26;
-            this.btnTimNV.Text = "Tìm kiếm tên NV";
-            this.btnTimNV.UseVisualStyleBackColor = true;
-            // 
-            // columnHeader12
-            // 
-            this.columnHeader12.Text = "Quyền";
-            this.columnHeader12.Width = 82;
             // 
             // fQuanlithongtin
             // 
