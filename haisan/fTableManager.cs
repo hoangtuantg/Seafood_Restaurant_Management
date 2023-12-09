@@ -3,10 +3,15 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
 using System.Drawing;
+using System.Globalization;
 using System.Linq;
+using System.Linq.Expressions;
 using System.Text;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using haisan.DAO;
+using haisan.DTO;
 
 namespace haisan
 {
@@ -15,10 +20,8 @@ namespace haisan
         public fTableManager()
         {
             InitializeComponent();
-
             LoadTable();
-
-            HienThiXinChao();
+            LoadCategory();
         }
 
         private string username;
@@ -38,29 +41,70 @@ namespace haisan
         {
 
         }
+        void LoadCategory()
+        {
+            List<Category> listCategory = CategoryDAO.Instance.GetListCategory();
+            cbDanhmuc.DataSource = listCategory;
+            cbDanhmuc.DisplayMember = "Name";
+        }
+        void LoadFoodListByCategoryID(int id)
+        {
+            List<Food> listFood = FoodDAO.Instance.GetFoodByCategoryID(id);
+            cbMonan.DataSource = listFood;
+            cbMonan.DisplayMember = "Name";
+        }
         void LoadTable()
         {
-            //List<Table> tableList = TableDAO.Instance.LoadTableList();
+            List<Table> tableList = TableDAO.Instance.LoadTableList();
 
-            //foreach (Table item in tableList)
+            foreach (Table item in tableList)
             {
-                //Button btn = new Button() { Width = TableDAO.TableWidth, Height = TableDAO.TableHeight };
-                //btn.Text = item.Name + Environment.NewLine + item.Status;
+                Button btn = new Button() { Width = TableDAO.TableWidth, Height = TableDAO.TableHeight };
+                btn.Text = item.Name + Environment.NewLine + item.Status;
+                btn.Click += btn_Click;
+                btn.Tag = item;
 
-                //switch (item.Status)
-                //{
-                //    case "Trống":
-                 //       //btn.BackColor = Color.Silver;
-                 //       break;
-                 //   default:
-                       // btn.BackColor = Color.DarkRed;
-                 //       break;
-                //}
+                switch (item.Status)
+                {
+                    case "Trống":
+                        btn.BackColor = Color.LightBlue;
+                        break;
+                    default:
+                        btn.BackColor = Color.DarkRed;
+                        break;
+                }
 
-                //flpBanan.Controls.Add(btn);
+                flpBanan.Controls.Add(btn);
             }
         }
+        void ShowBill(int id)
+        {
+            
+            lsvBill.Items.Clear();
+            List<haisan.DTO.Menu> listBillInfo = MenuDAO.Instance.GetListMenuByTable(id);
+            float totalPrice = 0;
 
+            foreach (haisan.DTO.Menu item in listBillInfo)
+            {
+                ListViewItem lsvItem = new ListViewItem(item.FoodName.ToString());
+                lsvItem.SubItems.Add(item.Count.ToString());
+                lsvItem.SubItems.Add(item.Price.ToString());
+                lsvItem.SubItems.Add(item.TotalPrice.ToString());
+                totalPrice += item.TotalPrice;
+                lsvBill.Items.Add(lsvItem);
+            }
+            CultureInfo culture = new CultureInfo("vi-VN");
+
+            txbTotalPrice.Text = totalPrice.ToString("c", culture);
+            
+        }
+        
+        void btn_Click(object sender, EventArgs e)
+        {
+            int tableID = ((sender as Button).Tag as Table).ID;
+            lsvBill.Tag = (sender as Button).Tag;
+            ShowBill(tableID);
+        }
         private void btnThanhtoan_Click(object sender, EventArgs e)
         {
 
@@ -73,10 +117,12 @@ namespace haisan
 
         private void mnQuanlithongtin_Click(object sender, EventArgs e)
         {
+            Close();
+
             fQuanlithongtin f = new fQuanlithongtin();
-            this.Hide();
+            Hide();
             f.ShowDialog();
-            this.Show();
+            Show();
         }
 
         private void mnQuanlibanan_Click(object sender, EventArgs e)
@@ -96,12 +142,56 @@ namespace haisan
             {
                 this.Close();
             }
-
         }
 
-        private void btnThemmon_Click(object sender, EventArgs e)
+        private void txtTongtien_TextChanged(object sender, EventArgs e)
         {
 
         }
+
+        private void cbDanhmuc_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            int id = 0;
+
+            ComboBox cb = sender as ComboBox;
+
+            if (cb.SelectedItem == null)
+                return;
+
+            Category selected = cb.SelectedItem as Category;
+            id = selected.ID;
+
+            LoadFoodListByCategoryID(id);
+        }
+        
+        private void btnThemmon_Click(object sender, EventArgs e)
+        {
+            Table table = lsvBill.Tag as Table;
+
+            if (table == null)
+            {
+                MessageBox.Show("Hãy chọn bàn");
+                return;
+            }
+
+            int idBill = BillDAO.Instance.GetUncheckBillIDByTableID(table.ID);
+            int foodID = (cbMonan.SelectedItem as Food).ID;
+            int count = (int)nmMonan.Value;
+
+            if (idBill == -1)
+            {
+                BillDAO.Instance.InsertBill(table.ID);
+                BillInfoDAO.Instance.InsertBillInfo(BillDAO.Instance.GetMaxIDBill(), foodID, count);
+            }
+            else
+            {
+                BillInfoDAO.Instance.InsertBillInfo(idBill, foodID, count);
+            }
+
+            ShowBill(table.ID);
+
+            LoadTable();
+        }
+        
     }
 }

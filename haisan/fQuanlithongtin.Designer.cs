@@ -65,7 +65,7 @@
             this.panel3 = new System.Windows.Forms.Panel();
             this.btnTimNV = new System.Windows.Forms.Button();
             this.txtTimKiemNhanVien = new System.Windows.Forms.TextBox();
-            this.comboBox1 = new System.Windows.Forms.ComboBox();
+            this.cboQuyen = new System.Windows.Forms.ComboBox();
             this.label1 = new System.Windows.Forms.Label();
             this.btnThemNV = new System.Windows.Forms.Button();
             this.btnXoaNV = new System.Windows.Forms.Button();
@@ -367,6 +367,7 @@
             this.lsvDanhSachNhanVien.TabIndex = 1;
             this.lsvDanhSachNhanVien.UseCompatibleStateImageBehavior = false;
             this.lsvDanhSachNhanVien.View = System.Windows.Forms.View.Details;
+            this.lsvDanhSachNhanVien.SelectedIndexChanged += new System.EventHandler(this.lsvDanhSachNhanVien_SelectedIndexChanged);
             // 
             // columnHeader5
             // 
@@ -423,7 +424,7 @@
             // 
             this.panel3.Controls.Add(this.btnTimNV);
             this.panel3.Controls.Add(this.txtTimKiemNhanVien);
-            this.panel3.Controls.Add(this.comboBox1);
+            this.panel3.Controls.Add(this.cboQuyen);
             this.panel3.Controls.Add(this.label1);
             this.panel3.Controls.Add(this.btnThemNV);
             this.panel3.Controls.Add(this.btnXoaNV);
@@ -467,13 +468,13 @@
             this.txtTimKiemNhanVien.Size = new System.Drawing.Size(175, 23);
             this.txtTimKiemNhanVien.TabIndex = 25;
             // 
-            // comboBox1
+            // cboQuyen
             // 
-            this.comboBox1.FormattingEnabled = true;
-            this.comboBox1.Location = new System.Drawing.Point(120, 163);
-            this.comboBox1.Name = "comboBox1";
-            this.comboBox1.Size = new System.Drawing.Size(189, 21);
-            this.comboBox1.TabIndex = 23;
+            this.cboQuyen.FormattingEnabled = true;
+            this.cboQuyen.Location = new System.Drawing.Point(120, 163);
+            this.cboQuyen.Name = "cboQuyen";
+            this.cboQuyen.Size = new System.Drawing.Size(189, 21);
+            this.cboQuyen.TabIndex = 23;
             // 
             // label1
             // 
@@ -807,7 +808,7 @@
         private System.Windows.Forms.Button btnThemMonAn;
         private System.Windows.Forms.Label lblXinChao;
         private System.Windows.Forms.Label label1;
-        private System.Windows.Forms.ComboBox comboBox1;
+        private System.Windows.Forms.ComboBox cboQuyen;
         private System.Windows.Forms.TextBox txtTimKiemNhanVien;
         private System.Windows.Forms.Button btnTimNV;
         private System.Windows.Forms.ColumnHeader columnHeader12;

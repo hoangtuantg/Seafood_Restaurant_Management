@@ -18,25 +18,15 @@ namespace haisan.DAO
             private set { DataProvider.instance = value; }
         }
 
-        private string ConnStr;
-        private SqlConnection Conn;
-        private SqlCommand cmd;
-        //private SqlDataAdapter sda;
+        private DataProvider() { }
 
-        public DataProvider()
-        {
-            ConnStr = "Data Source=HUNG123;Initial Catalog=QuanLyQuanHaiSan;Integrated Security=True";
-            Conn = new SqlConnection(ConnStr);
-            cmd = new SqlCommand();
-            cmd.Connection = Conn;
-        }
+        private string connectionSTR = "Data Source=HUNG123;Initial Catalog=QuanLyQuanHaiSan;Integrated Security=True";
 
-        //private DataProvider() { }
         public DataTable ExecuteQuery(string query, object[] parameter = null)
         {
             DataTable data = new DataTable();
 
-            using (SqlConnection connection = new SqlConnection(ConnStr))
+            using (SqlConnection connection = new SqlConnection(connectionSTR))
             {
                 connection.Open();
 
@@ -70,7 +60,7 @@ namespace haisan.DAO
         {
             int data = 0;
 
-            using (SqlConnection connection = new SqlConnection(ConnStr))
+            using (SqlConnection connection = new SqlConnection(connectionSTR))
             {
                 connection.Open();
 
@@ -102,7 +92,7 @@ namespace haisan.DAO
         {
             object data = 0;
 
-            using (SqlConnection connection = new SqlConnection(ConnStr))
+            using (SqlConnection connection = new SqlConnection(connectionSTR))
             {
                 connection.Open();
 
