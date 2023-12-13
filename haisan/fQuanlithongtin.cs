@@ -11,6 +11,8 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using static System.Windows.Forms.VisualStyles.VisualStyleElement;
+using haisan.DAO;
+using haisan.DTO;
 
 namespace haisan
 {
@@ -615,7 +617,14 @@ namespace haisan
         {
 
         }
-
-
+        //============Danh sách hóa đơn=============================
+        void LoadListBillByDate(DateTime checkIn, DateTime checkOut)
+        {
+            dgvBill.DataSource = BillDAO.Instance.GetBillListByDate(checkIn, checkOut);
+        }
+        private void btnViewBill_Click(object sender, EventArgs e)
+        {
+            LoadListBillByDate(dtpFromDate.Value, dtpToDate.Value);
+        }
     }
 }

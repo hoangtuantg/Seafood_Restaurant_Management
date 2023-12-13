@@ -39,6 +39,7 @@ namespace haisan
 
         private void fTableManager_Load(object sender, EventArgs e)
         {
+            LoadTable();
 
         }
         void LoadCategory()
@@ -55,6 +56,7 @@ namespace haisan
         }
         void LoadTable()
         {
+            flpBanan.Controls.Clear();
             List<Table> tableList = TableDAO.Instance.LoadTableList();
 
             foreach (Table item in tableList)
@@ -105,9 +107,35 @@ namespace haisan
             lsvBill.Tag = (sender as Button).Tag;
             ShowBill(tableID);
         }
+
         private void btnThanhtoan_Click(object sender, EventArgs e)
         {
+            Table table = lsvBill.Tag as Table;
+            int idBill = BillDAO.Instance.GetUncheckBillIDByTableID(table.ID);
+            string totalPriceText = txbTotalPrice.Text;
 
+            // Sử dụng CultureInfo để chuyển đổi chuỗi định dạng tiền về số
+            CultureInfo culture = new CultureInfo("vi-VN");
+            double totalPrice;
+
+            if (double.TryParse(totalPriceText, NumberStyles.Currency, culture, out totalPrice))
+            {
+                if (idBill != -1)
+                {
+                    DialogResult result = MessageBox.Show("Bạn có chắc muốn thanh toán hóa đơn cho: " + table.Name, "Thông báo", MessageBoxButtons.OKCancel);
+                    if (result == DialogResult.OK)
+                    {
+                        BillDAO.Instance.CheckOut(idBill, (float)totalPrice);
+                        ShowBill(table.ID);
+
+                        LoadTable();
+                    }
+                }
+            }
+            else
+            {
+                MessageBox.Show("Giá trị không hợp lệ.");
+            }
         }
 
         private void btnInhoadon_Click(object sender, EventArgs e)
@@ -132,7 +160,8 @@ namespace haisan
 
         private void fTableManager_Load_1(object sender, EventArgs e)
         {
-
+            LoadTable();
+            LoadCategory();
         }
 
         private void btnDangxuat_Click(object sender, EventArgs e)

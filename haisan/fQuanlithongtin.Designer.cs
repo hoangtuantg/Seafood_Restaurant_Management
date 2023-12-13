@@ -83,11 +83,18 @@
             this.label7 = new System.Windows.Forms.Label();
             this.label9 = new System.Windows.Forms.Label();
             this.label10 = new System.Windows.Forms.Label();
+            this.tabPage1 = new System.Windows.Forms.TabPage();
+            this.dgvBill = new System.Windows.Forms.DataGridView();
+            this.btnViewBill = new System.Windows.Forms.Button();
+            this.dtpToDate = new System.Windows.Forms.DateTimePicker();
+            this.dtpFromDate = new System.Windows.Forms.DateTimePicker();
             this.menuStrip1 = new System.Windows.Forms.MenuStrip();
             this.mnQuanlibanan = new System.Windows.Forms.ToolStripMenuItem();
             this.quảnLíThôngTinToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.btnDangxuat = new System.Windows.Forms.Button();
             this.lblXinChao = new System.Windows.Forms.Label();
+            this.panel4 = new System.Windows.Forms.Panel();
+            this.panel5 = new System.Windows.Forms.Panel();
             this.tabControl1.SuspendLayout();
             this.tpMonan.SuspendLayout();
             this.panel2.SuspendLayout();
@@ -98,13 +105,18 @@
             this.groupBox1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView2)).BeginInit();
             this.panel3.SuspendLayout();
+            this.tabPage1.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.dgvBill)).BeginInit();
             this.menuStrip1.SuspendLayout();
+            this.panel4.SuspendLayout();
+            this.panel5.SuspendLayout();
             this.SuspendLayout();
             // 
             // tabControl1
             // 
             this.tabControl1.Controls.Add(this.tpMonan);
             this.tabControl1.Controls.Add(this.tpNhanvien);
+            this.tabControl1.Controls.Add(this.tabPage1);
             this.tabControl1.Location = new System.Drawing.Point(9, 34);
             this.tabControl1.Margin = new System.Windows.Forms.Padding(2);
             this.tabControl1.Name = "tabControl1";
@@ -665,6 +677,51 @@
             this.label10.Text = "Tên NV:";
             this.label10.Click += new System.EventHandler(this.label10_Click);
             // 
+            // tabPage1
+            // 
+            this.tabPage1.Controls.Add(this.panel5);
+            this.tabPage1.Controls.Add(this.panel4);
+            this.tabPage1.Location = new System.Drawing.Point(4, 22);
+            this.tabPage1.Name = "tabPage1";
+            this.tabPage1.Padding = new System.Windows.Forms.Padding(3);
+            this.tabPage1.Size = new System.Drawing.Size(800, 487);
+            this.tabPage1.TabIndex = 2;
+            this.tabPage1.Text = "Doanh thu";
+            this.tabPage1.UseVisualStyleBackColor = true;
+            // 
+            // dgvBill
+            // 
+            this.dgvBill.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.dgvBill.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.dgvBill.Location = new System.Drawing.Point(0, 0);
+            this.dgvBill.Name = "dgvBill";
+            this.dgvBill.Size = new System.Drawing.Size(757, 395);
+            this.dgvBill.TabIndex = 3;
+            // 
+            // btnViewBill
+            // 
+            this.btnViewBill.Location = new System.Drawing.Point(341, 18);
+            this.btnViewBill.Name = "btnViewBill";
+            this.btnViewBill.Size = new System.Drawing.Size(75, 23);
+            this.btnViewBill.TabIndex = 2;
+            this.btnViewBill.Text = "Thống kê";
+            this.btnViewBill.UseVisualStyleBackColor = true;
+            this.btnViewBill.Click += new System.EventHandler(this.btnViewBill_Click);
+            // 
+            // dtpToDate
+            // 
+            this.dtpToDate.Location = new System.Drawing.Point(557, 21);
+            this.dtpToDate.Name = "dtpToDate";
+            this.dtpToDate.Size = new System.Drawing.Size(200, 20);
+            this.dtpToDate.TabIndex = 1;
+            // 
+            // dtpFromDate
+            // 
+            this.dtpFromDate.Location = new System.Drawing.Point(3, 21);
+            this.dtpFromDate.Name = "dtpFromDate";
+            this.dtpFromDate.Size = new System.Drawing.Size(200, 20);
+            this.dtpFromDate.TabIndex = 0;
+            // 
             // menuStrip1
             // 
             this.menuStrip1.BackColor = System.Drawing.Color.Transparent;
@@ -715,6 +772,24 @@
             this.lblXinChao.TabIndex = 3;
             this.lblXinChao.Text = "label1";
             // 
+            // panel4
+            // 
+            this.panel4.Controls.Add(this.dtpFromDate);
+            this.panel4.Controls.Add(this.btnViewBill);
+            this.panel4.Controls.Add(this.dtpToDate);
+            this.panel4.Location = new System.Drawing.Point(25, 6);
+            this.panel4.Name = "panel4";
+            this.panel4.Size = new System.Drawing.Size(757, 58);
+            this.panel4.TabIndex = 4;
+            // 
+            // panel5
+            // 
+            this.panel5.Controls.Add(this.dgvBill);
+            this.panel5.Location = new System.Drawing.Point(25, 70);
+            this.panel5.Name = "panel5";
+            this.panel5.Size = new System.Drawing.Size(757, 395);
+            this.panel5.TabIndex = 5;
+            // 
             // fQuanlithongtin
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -729,7 +804,7 @@
             this.Margin = new System.Windows.Forms.Padding(2);
             this.Name = "fQuanlithongtin";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
-            this.Text = "fQuanlithongtin";
+            this.Text = "Admin";
             this.Load += new System.EventHandler(this.fQuanlithongtin_Load);
             this.tabControl1.ResumeLayout(false);
             this.tpMonan.ResumeLayout(false);
@@ -744,8 +819,12 @@
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView2)).EndInit();
             this.panel3.ResumeLayout(false);
             this.panel3.PerformLayout();
+            this.tabPage1.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.dgvBill)).EndInit();
             this.menuStrip1.ResumeLayout(false);
             this.menuStrip1.PerformLayout();
+            this.panel4.ResumeLayout(false);
+            this.panel5.ResumeLayout(false);
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -812,5 +891,12 @@
         private System.Windows.Forms.TextBox txtTimKiemNhanVien;
         private System.Windows.Forms.Button btnTimNV;
         private System.Windows.Forms.ColumnHeader columnHeader12;
+        private System.Windows.Forms.TabPage tabPage1;
+        private System.Windows.Forms.Button btnViewBill;
+        private System.Windows.Forms.DateTimePicker dtpToDate;
+        private System.Windows.Forms.DateTimePicker dtpFromDate;
+        private System.Windows.Forms.DataGridView dgvBill;
+        private System.Windows.Forms.Panel panel4;
+        private System.Windows.Forms.Panel panel5;
     }
 }
