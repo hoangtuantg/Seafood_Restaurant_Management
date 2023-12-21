@@ -52,7 +52,11 @@ namespace haisan.DAO
 
         public DataTable GetBillListByDate(DateTime checkIn, DateTime checkOut)
         {
-            return DataProvider.Instance.ExecuteQuery("exec USP_GetListBillByDate @checkIn, @checkOut", new object[]{checkIn, checkOut});
+            return DataProvider.Instance.ExecuteProcedure("USP_GetListBillByDate", new Dictionary<string, object>
+            {
+                { "@checkIn", checkIn},
+                { "@checkOut", checkOut}
+            });
         }
 
         public int GetMaxIDBill()

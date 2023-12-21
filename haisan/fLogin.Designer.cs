@@ -96,6 +96,7 @@
             this.txtTK.Name = "txtTK";
             this.txtTK.Size = new System.Drawing.Size(258, 24);
             this.txtTK.TabIndex = 5;
+            this.txtTK.Text = "hoang1234";
             // 
             // txtMK
             // 
@@ -107,6 +108,7 @@
             this.txtMK.PasswordChar = '*';
             this.txtMK.Size = new System.Drawing.Size(258, 24);
             this.txtMK.TabIndex = 6;
+            this.txtMK.Text = "123456";
             this.txtMK.TextChanged += new System.EventHandler(this.txtTK_TextChanged);
             // 
             // panel1

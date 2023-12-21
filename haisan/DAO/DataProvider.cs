@@ -56,6 +56,31 @@ namespace haisan.DAO
             return data;
         }
 
+        public DataTable ExecuteProcedure(string query, Dictionary<string, object> parameters) =>   // for procedures
+            ExecuteQuery(query, CommandType.StoredProcedure, parameters);
+
+        private DataTable ExecuteQuery(string query, CommandType commandType,
+            Dictionary<string, object> parameters)
+        {
+            DataTable data = new DataTable();
+            SqlConnection connection = new SqlConnection(connectionSTR);
+            connection.Open();
+            SqlCommand command = new SqlCommand(query, connection);
+            command.CommandType = commandType;
+
+            foreach (var item in parameters)
+            {
+                command.Parameters.AddWithValue(item.Key, item.Value);
+            }
+            
+            using (SqlDataAdapter adapter = new SqlDataAdapter(command))
+            {
+                adapter.Fill(data);
+            }
+
+            return data;
+        }
+
         public int ExecuteNonQuery(string query, object[] parameter = null)
         {
             int data = 0;

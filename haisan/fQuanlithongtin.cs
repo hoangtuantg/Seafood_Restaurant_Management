@@ -69,6 +69,14 @@ namespace haisan
 
             lsvDanhSachNhanVien.SelectedIndexChanged += new EventHandler(lsvDanhSachNhanVien_SelectedIndexChanged);
 
+
+            // Đặt Items cho ComboBoxDanhMuc
+            cbDanhmuc.Items.Add("1");
+            cbDanhmuc.Items.Add("2");
+            cbDanhmuc.Items.Add("3");
+
+            LoadDateTimePickerBill();
+            LoadListBillByDate(dtpFromDate.Value, dtpToDate.Value);
         }
 
         // Ham mo ket noi
@@ -95,6 +103,7 @@ namespace haisan
         //Hàm xóa dữ liệu
         private void XoaDuLieu()
         {
+            //Nhân viên
             txtTenNV.Text = string.Empty;
             txtTaikhoan.Text = string.Empty;
             txtMatkhau.Text = string.Empty;
@@ -103,6 +112,11 @@ namespace haisan
             dateTimePicker1.Value = DateTime.Now;
             txtSDT.Text = string.Empty;
             cboQuyen.SelectedIndex = -1;
+
+            //Món ăn
+            txtMonAn.Clear();
+            cbDanhmuc.SelectedIndex = -1;
+            txtGia.Clear();
         }
 
 
@@ -130,6 +144,198 @@ namespace haisan
                         lsvDanhSachMonAn.Items.Add(item);
                     }
                 }
+            }
+        }
+
+        private void btnThemMonAn_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                // Lấy thông tin từ các controls trên giao diện
+                string tenMonAn = txtMonAn.Text;
+                int categoryId = Convert.ToInt32(cbDanhmuc.SelectedItem);
+                string price = txtGia.Text;
+
+                // Kiểm tra xem có thông tin đầy đủ không
+                if (string.IsNullOrEmpty(tenMonAn) || categoryId <= 0 || string.IsNullOrEmpty(price))
+                {
+                    MessageBox.Show("Vui lòng nhập đầy đủ thông tin món ăn, danh mục và giá.", "Thông báo");
+                    return;
+                }
+                MoKetNoi();
+
+                // Chuẩn bị câu truy vấn SQL INSERT
+                string query = "INSERT INTO Food (name, idCategory, price) VALUES (@tenMonAn, @categoryId, @price)";
+
+                // Tạo đối tượng SqlCommand
+                using (SqlCommand cmd = new SqlCommand(query, Conn))
+                {
+                    // Thêm tham số cho truy vấn SQL để tránh SQL Injection
+                    cmd.Parameters.Add("@tenMonAn", SqlDbType.NVarChar).Value = tenMonAn;
+                    cmd.Parameters.Add("@categoryId", SqlDbType.Int).Value = categoryId;
+                    cmd.Parameters.Add("@price", SqlDbType.Float).Value = price;
+
+                    // Thực thi câu truy vấn và lấy ID của món ăn vừa thêm
+                    cmd.ExecuteNonQuery();
+
+                    // Hiển thị thông báo thành công
+                    MessageBox.Show("Thêm món ăn thành công.", "Thông báo");
+
+                    // Sau khi thêm, làm mới danh sách món ăn
+                    HienThiDanhSachMonAn();
+                }
+                XoaDuLieu();
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"Lỗi: {ex.Message}", "Lỗi");
+            }
+            finally
+            {
+                // Đóng kết nối
+                DongKetNoi();
+            }
+        }
+
+        private void lsvDanhSachMonAn_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            if (lsvDanhSachMonAn.SelectedItems.Count > 0)
+            {
+                // Lấy thông tin của món ăn được chọn
+                ListViewItem selectedItem = lsvDanhSachMonAn.SelectedItems[0];
+                string idMonAn = selectedItem.SubItems[0].Text; 
+                string tenMonAn = selectedItem.SubItems[1].Text; 
+                string idCategory = selectedItem.SubItems[2].Text; 
+                string gia = selectedItem.SubItems[3].Text; 
+
+                // Hiển thị thông tin món ăn trong các controls trên giao diện
+                txtMonAn.Text = tenMonAn;
+                cbDanhmuc.SelectedItem = idCategory; 
+                txtGia.Text = gia;
+            }
+        }
+
+        private void btnSuaMonAn_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                // Kiểm tra xem có món ăn được chọn hay không
+                if (lsvDanhSachMonAn.SelectedItems.Count > 0)
+                {
+                    // Lấy thông tin của món ăn được chọn
+                    ListViewItem selectedItem = lsvDanhSachMonAn.SelectedItems[0];
+                    int idMonAn = int.Parse(selectedItem.SubItems[0].Text); 
+
+                    // Lấy thông tin mới từ các controls trên giao diện
+                    string tenMonAnMoi = txtMonAn.Text;
+                    int categoryIdMoi = Convert.ToInt32(cbDanhmuc.SelectedItem); 
+                    string giaMoi = txtGia.Text;
+
+                    // Mở kết nối đến cơ sở dữ liệu
+                    MoKetNoi();
+
+                    // Chuẩn bị câu truy vấn SQL UPDATE
+                    string query = "UPDATE Food SET name = @tenMonAn, idCategory = @categoryId, price = @gia WHERE id = @idMonAn";
+
+                    // Tạo đối tượng SqlCommand
+                    using (SqlCommand cmd = new SqlCommand(query, Conn))
+                    {
+                        // Thêm tham số cho truy vấn SQL để tránh SQL Injection
+                        cmd.Parameters.Add("@tenMonAn", SqlDbType.NVarChar).Value = tenMonAnMoi;
+                        cmd.Parameters.Add("@categoryId", SqlDbType.Int).Value = categoryIdMoi;
+                        cmd.Parameters.Add("@gia", SqlDbType.Decimal).Value = giaMoi;
+                        cmd.Parameters.Add("@idMonAn", SqlDbType.Int).Value = idMonAn;
+
+                        // Thực thi câu truy vấn
+                        int rowsAffected = cmd.ExecuteNonQuery();
+
+                        // Kiểm tra xem có dòng nào được cập nhật không
+                        if (rowsAffected > 0)
+                        {
+                            MessageBox.Show("Cập nhật món ăn thành công.", "Thông báo");
+                            // Sau khi cập nhật, làm mới danh sách món ăn
+                            HienThiDanhSachMonAn();
+                        }
+                        else
+                        {
+                            MessageBox.Show("Cập nhật món ăn không thành công.", "Thông báo");
+                        }
+                    }
+                    XoaDuLieu();
+                }
+                else
+                {
+                    MessageBox.Show("Vui lòng chọn một món ăn để sửa.", "Thông báo");
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"Lỗi: {ex.Message}", "Lỗi");
+            }
+            finally
+            {
+                DongKetNoi();
+            }
+        }
+
+        private void btnXoaMonAn_Click(object sender, EventArgs e)
+        {
+            // Kiểm tra xem đã chọn nhân viên để xóa chưa
+            if (lsvDanhSachMonAn.SelectedItems.Count > 0)
+            {
+                // Lấy ID của nhân viên được chọn
+                string idMonAn = lsvDanhSachMonAn.SelectedItems[0].SubItems[0].Text;
+
+                // Hiển thị hộp thoại xác nhận xóa
+                DialogResult result = MessageBox.Show("Bạn có chắc chắn muốn xóa món ăn này không?", "Xác nhận xóa", MessageBoxButtons.YesNo, MessageBoxIcon.Warning);
+
+                if (result == DialogResult.Yes)
+                {
+                    try
+                    {
+                        // Mở kết nối đến cơ sở dữ liệu
+                        MoKetNoi();
+
+                        // Thực hiện truy vấn xóa nhân viên từ cơ sở dữ liệu
+                        string query = "DELETE FROM Food WHERE id = @idNhanVien";
+
+                        using (SqlCommand cmd = new SqlCommand(query, Conn))
+                        {
+                            cmd.Parameters.AddWithValue("@idNhanVien", idMonAn);
+
+                            int rowsAffected = cmd.ExecuteNonQuery();
+
+                            if (rowsAffected > 0)
+                            {
+                                // Hiển thị thông báo xóa thành công
+                                MessageBox.Show("Xóa món ăn thành công!", "Thông báo", MessageBoxButtons.OK, MessageBoxIcon.Information);
+
+                                // Làm mới danh sách nhân viên
+                                HienThiDanhSachMonAn();
+
+                                // Làm mới các trường nhập thông tin
+                                XoaDuLieu();
+                            }
+                            else
+                            {
+                                // Hiển thị thông báo lỗi nếu có vấn đề khi xóa nhân viên
+                                MessageBox.Show("Có lỗi xảy ra khi xóa món ăn!", "Lỗi", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                            }
+                        }
+                    }
+                    catch (Exception ex)
+                    {
+                        MessageBox.Show(ex.Message);
+                    }
+                    finally
+                    {
+                        DongKetNoi();
+                    }
+                }
+            }
+            else
+            {
+                MessageBox.Show("Vui lòng chọn món ăn cần xóa!", "Lỗi", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
 
@@ -613,11 +819,14 @@ namespace haisan
 
         }
 
-        private void lsvDanhSachMonAn_SelectedIndexChanged(object sender, EventArgs e)
-        {
 
-        }
         //============Danh sách hóa đơn=============================
+        void LoadDateTimePickerBill()
+        {
+            DateTime today = DateTime.Now;
+            dtpFromDate.Value = new DateTime(today.Year, today.Month, 1);
+            dtpToDate.Value = dtpFromDate.Value.AddMonths(1).AddDays(-1);
+        }
         void LoadListBillByDate(DateTime checkIn, DateTime checkOut)
         {
             dgvBill.DataSource = BillDAO.Instance.GetBillListByDate(checkIn, checkOut);
@@ -626,5 +835,6 @@ namespace haisan
         {
             LoadListBillByDate(dtpFromDate.Value, dtpToDate.Value);
         }
+
     }
 }
